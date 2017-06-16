@@ -68,6 +68,9 @@ Plugin 'SuperTab'
 Plugin 'leafgarland/typescript-vim'
 " Vue.js
 Plugin 'posva/vim-vue'
+Plugin 'hdima/python-syntax'
+
+Plugin 'christoomey/vim-tmux-navigator'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -188,6 +191,12 @@ set foldopen-=search " don't open folds when you search into them
 set foldopen-=undo " don't open folds when you undo stuff
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Window splits
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set splitbelow
+set splitright
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CTags
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "let Tlist_Ctags_Cmd = 'ctags' " Location of ctags
@@ -227,6 +236,38 @@ endfunction
 " map <F2> <ESC>ggVG:call SuperRetab()<left>
 " map <F12> ggVGg? " apply rot13 for people snooping over shoulder, good fun
 
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+" LEADER+ev to edit ~/.vimrc
+nnoremap <leader>ev :vsp $MYVIMRC<cr>
+" LEADER+sv to source ~/.vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+vnoremap <leader>cp :w !pbcopy<cr>
+
+map <C-n> :NERDTreeToggle<cr>
+
+set pastetoggle=<leader>z
+
+" split line
+imap <C-c> <CR><Esc>O
+
+nnoremap j gj
+nnoremap k gk
+nnoremap $ g$
+nnoremap 0 g0
+
+nnoremap <leader>bi :BundleInstall<cr>
+
+nnoremap <leader>gu :GundoToggle<CR>
+
+nnoremap <C-w>\ <C-w>v
+nnoremap <C-w>- <C-w>s
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Useful abbrevs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -268,8 +309,7 @@ noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 nnoremap <silent> <leader>es :Esformatter<CR>
 vnoremap <silent> <leader>es :EsformatterVisual<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.DS_Store$']
@@ -301,6 +341,8 @@ let g:syntastic_enable_tslint_checker = 1
 let g:syntastic_typescript_checkers = ['tslint', 'tsc']
 let g:syntastic_enable_pug_checker = 1
 let g:syntastic_pug_checkers = ['jade','pug']
+let g:syntastic_python_checkers=['flake8']
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
