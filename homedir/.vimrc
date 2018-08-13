@@ -13,6 +13,13 @@ else
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Cursor shape
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vundle
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible              " be iMproved, required
@@ -25,7 +32,7 @@ call vundle#begin()
 " Keep Plugin commands between vundle#begin/end.
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 " Navigation (IDE frame)
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -72,6 +79,12 @@ Plugin 'hdima/python-syntax'
 
 Plugin 'christoomey/vim-tmux-navigator'
 
+" better folding
+Plugin 'tmhedberg/SimpylFold'
+
+" python indentation PEP8
+Plugin 'vim-scripts/indentpython.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -100,6 +113,7 @@ set ffs=unix,dos,mac " support all three, in this order
 set viminfo+=! " make sure it can save viminfo
 set isk+=_,$,@,%,# " none of these should be word dividers, so make them not be
 set nosol " leave my cursor where it was
+set number
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files/Backups/Sessions
@@ -108,28 +122,6 @@ set nobackup
 set nowb
 set noswapfile
 set directory=~/.vim/temp " directory for temp files
-set makeef=error.err " When using make, where should it dump the file
-set sessionoptions+=globals " What should be saved during sessions being saved
-set sessionoptions+=localoptions " What should be saved during sessions being saved
-set sessionoptions+=resize " What should be saved during sessions being saved
-set sessionoptions+=winpos " What should be saved during sessions being saved
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim UI
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set lsp=0 " space it out a little more (easier to read)
-set wildmenu " turn on wild menu
-set wildmode=list:longest " turn on wild menu in special format (long format)
-set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.swp,*.jpg,*.gif,*.png " ignore formats
-set ruler " Always show current positions along the bottom
-set cmdheight=1 " the command bar is 1 high
-set number " turn on line numbers
-set lz " do not redraw while running macros (much faster) (LazyRedraw)
-set hid " you can change buffer without saving
-set backspace=2 " make backspace work normal
-set whichwrap+=<,>,h,l  " backspace and cursor keys wrap to
-set mouse=a " use mouse everywhere
-set shortmess=atI " shortens messages to avoid 'press a key' prompt
 set report=0 " tell us when anything is changed via :...
 set noerrorbells " don't make noise
 set list " we do what to show tabs, to ensure we get them out of my files
@@ -143,7 +135,7 @@ set mat=5 " how many tenths of a second to blink matching brackets for
 set nohlsearch " do not highlight searched for phrases
 set incsearch " BUT do highlight as you type you search phrase
 set so=5 " Keep 5 lines (top/bottom) for scope
-set novisualbell " don't blink
+" set novisualbell " don't blink
 " statusline example: ~\myfile[+] [FORMAT=format] [TYPE=type] [ASCII=000] [HEX=00] [POS=0000,0000][00%] [LEN=000]
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 set laststatus=2 " always show the status line
@@ -184,11 +176,12 @@ set cursorline
 "    cases
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldenable " Turn on folding
-set foldmarker={,} " Fold C style code
-set foldmethod=marker " Fold on the marker
+" set foldmarker={,} " Fold C style code
+set foldmethod=indent " Fold on the marker
 set foldlevel=100 " Don't autofold anything (but I can still fold manually)
 set foldopen-=search " don't open folds when you search into them
 set foldopen-=undo " don't open folds when you undo stuff
+nnoremap <space> za
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Window splits
@@ -212,11 +205,6 @@ set splitright
 " Matchit
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let b:match_ignorecase = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Perl
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let perl_extended_vars=1 " highlight advanced perl vars inside strings
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Functions
@@ -268,6 +256,10 @@ nnoremap <leader>gu :GundoToggle<CR>
 
 nnoremap <C-w>\ <C-w>v
 nnoremap <C-w>- <C-w>s
+map <C-g> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+map <C-b> <C-o>
+
+nnoremap <leader>st :SyntasticToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Useful abbrevs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -295,7 +287,7 @@ au FileType c set omnifunc=ccomplete#Complete
 " if you swapped C-y and C-e, and set them to 2, it would
 " remove any overlap between pages
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <C-b> <C-b>3<C-e> "  Make overlap 3 extra on control-b
+" nnoremap <C-b> <C-b>3<C-e> "  Make overlap 3 extra on control-b
 
 " Yank text to the OS X clipboard
 noremap <leader>y "*y
@@ -309,7 +301,8 @@ noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 nnoremap <silent> <leader>es :Esformatter<CR>
 vnoremap <silent> <leader>es :EsformatterVisual<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " NERDTree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.DS_Store$']
@@ -333,8 +326,8 @@ let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_w = 1
 let g:syntastic_enable_eslint_checker = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_enable_tslint_checker = 1
@@ -348,3 +341,28 @@ let g:syntastic_python_checkers=['flake8']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:sneak#streak = 1
 let g:airline_theme='bubblegum'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Language settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+let g:ycm_server_python_interpreter='python3.6'
+let g:ycm_autoclose_preview_window_after_completion=1
