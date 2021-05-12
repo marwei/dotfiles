@@ -1,9 +1,9 @@
 [user]
-  name = Wei Zhu
-  email = wei@crunchbase.com
+  name = GITHUBFULLNAME
+  email = GITHUBEMAIL
 [github]
   # https://github.com/blog/180-local-github-config
-  user = marwei
+  user = GITHUBUSER
 [color]
 # ui = true is a superset of all the more specific color options
 #  as documented at http://book.git-scm.com/5_customizing_git.html
@@ -37,7 +37,7 @@
   fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore
   quotepath = false
   # line endings
   # force LF during add
@@ -55,7 +55,9 @@
   co = checkout
   d = diff --color-words
   cam = commit -a -m
-  upm = !git fetch upstream && git merge upstream/master
+  upm = !git fetch upstream && git merge upstream/main
+  # new standard to replace the deprecated git-up gem package:
+  up = pull --rebase --autostash
 
   # least used
   br = branch -a
@@ -93,7 +95,6 @@
   logr2 = log --stat -M -2
   logit = log --stat -M
   scrub = !git reset --hard && git clean -fd
-  pub = !git pub checkout master && git pull && git checkout dev && git rebase master && git checkout master && git merge dev && git wtf
   cs = status
   rv = remote -v
   lwr = log --stat -C
@@ -117,7 +118,7 @@
   blg = log --graph --decorate --all --abbrev-commit --pretty=oneline
   slog = log --graph --simplify-by-decoration --all --abbrev-commit --pretty=oneline
   lgso = log --graph --date=short --pretty=format:'%C(yellow)%h%Creset %cn%x09%cd %s%C(green bold)%d'
-  ro = !git fetch origin && git reset --hard origin/master
+  ro = !git fetch origin && git reset --hard origin/main
   shorten = "!sh -c 'curl -i http://git.io -F url=$1' -"
   pushnotes = !sh -c 'git push $1 refs/notes/*' -
   fetchnotes = !sh -c 'git fetch $1 refs/notes/*:refs/notes/*' -
@@ -164,15 +165,14 @@
 [init]
   templatedir = ~/.dotfiles/.git_template
 
-[mergetool]
-  prompt = false
-  keepBackup = false
-
 [merge]
-	tool = diffmerge
-  # Always show a diffstat at the end of a merge
-  stat = true
-  conflictstyle = diff3
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
 
 [branch]
     # Automatically set up pull to be --rebase
@@ -198,8 +198,5 @@
   clean = git-lfs clean %f
   smudge = git-lfs smudge %f
   required = true
-[difftool "diffmerge"]
-	cmd = /usr/local/bin/diffmerge \"$LOCAL\" \"$REMOTE\"
-[mergetool "diffmerge"]
-	trustExitCode = true
-	cmd = /usr/local/bin/diffmerge --merge --result=\"$MERGED\"         \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+[pull]
+	rebase = true

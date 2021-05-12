@@ -25,52 +25,49 @@ call vundle#begin()
 " Keep Plugin commands between vundle#begin/end.
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
-" " Plugin 'Valloric/YouCompleteMe'
-" " Navigation (IDE frame)
+" Plugin 'Valloric/YouCompleteMe'
+" Navigation (IDE frame)
 Plugin 'scrooloose/nerdtree'
-" Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'tpope/vim-fugitive'
-" Plugin 'tpope/vim-sensible'
-" Plugin 'justinmk/vim-sneak'
-" Plugin 'airblade/vim-gitgutter'
-" Plugin 'tpope/vim-surround'
-" Plugin 'dkprice/vim-easygrep'
-" Plugin 'editorconfig/editorconfig-vim'
-" " visual undo list
-" Plugin 'sjl/gundo.vim'
-" " Plugin 'majutsushi/tagbar'
-" " markdown preview: opens browser with live reload when vim opens .md
-" Plugin 'suan/vim-instant-markdown'
-" Plugin 'godlygeek/tabular'
-" " language tools
-" Plugin 'scrooloose/syntastic'
-" Plugin 'millermedeiros/vim-esformatter'
-" Plugin 'digitaltoad/vim-pug'
-" " Plugin 'elzr/vim-json'
-" " Plugin 'SirVer/ultisnips'
-" "Plugin 'sheerun/vim-polyglot'
-" " plugins from http://vim-scripts.org/vim/scripts.html
-" Plugin 'node.js'
-" Plugin 'SuperTab'
-" " Git plugin not hosted on GitHub
-" " Plugin 'git://git.wincent.com/command-t.git'
-" " git repos on your local machine (i.e. when working on your own plugin)
-" " Plugin 'file:///home/gmarik/path/to/plugin'
-" " The sparkup vim script is in a subdirectory of this repo called vim.
-" " Pass the path to set the runtimepath properly.
-" " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" " Install L9 and avoid a Naming conflict if you've already installed a
-" " different version somewhere else.
-" " Plugin 'ascenator/L9', {'name': 'newL9'}
-" " TypeScript
-" Plugin 'leafgarland/typescript-vim'
-" " Vue.js
-" Plugin 'posva/vim-vue'
-" Plugin 'hdima/python-syntax'
-" 
-Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sensible'
+Plugin 'justinmk/vim-sneak'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-surround'
+Plugin 'dkprice/vim-easygrep'
+Plugin 'editorconfig/editorconfig-vim'
+" visual undo list
+Plugin 'sjl/gundo.vim'
+" Plugin 'majutsushi/tagbar'
+" markdown preview: opens browser with live reload when vim opens .md
+Plugin 'suan/vim-instant-markdown'
+Plugin 'godlygeek/tabular'
+" language tools
+Plugin 'scrooloose/syntastic'
+Plugin 'millermedeiros/vim-esformatter'
+Plugin 'digitaltoad/vim-pug'
+" Plugin 'elzr/vim-json'
+" Plugin 'SirVer/ultisnips'
+"Plugin 'sheerun/vim-polyglot'
+" plugins from http://vim-scripts.org/vim/scripts.html
+Plugin 'node.js'
+Plugin 'SuperTab'
+" Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+" TypeScript
+Plugin 'leafgarland/typescript-vim'
+" Vue.js
+Plugin 'posva/vim-vue'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -89,17 +86,29 @@ filetype plugin indent on    " required
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" global enable spell check
+"set spell spelllang=en_us   " spell check go to highlighted word and "z=" to see list to turn off set nospell
+setlocal spell spelllang=en_us
+setlocal spellfile=$HOME/.vim-spell-en.utf-8.add
+autocmd BufRead,BufNewFile *.md,*.txt setlocal spell  " enable spell check for certain files
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
 set history=1000 " How many lines of history to remember
 set cf " enable error files and error jumping
-" set clipboard+=unnamed " turns out I do like sharing windows clipboard
 set ffs=unix,dos,mac " support all three, in this order
 set viminfo+=! " make sure it can save viminfo
 set isk+=_,$,@,%,# " none of these should be word dividers, so make them not be
 set nosol " leave my cursor where it was
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files/Backups/Sessions
@@ -276,11 +285,11 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocommands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.zcml set filetype=xml
-au BufRead,BufNewFile *.rb,*.rhtml set tabstop=2
-au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2
-au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2
-au BufRead,BufNewFile *.otl set syntax=blockhl
+"au BufRead,BufNewFile *.zcml set filetype=xml
+"au BufRead,BufNewFile *.rb,*.rhtml set tabstop=2
+"au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2
+"au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2
+"au BufRead,BufNewFile *.otl set syntax=blockhl
 au BufRead,BufNewFile *.json set syntax=javascript
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -297,11 +306,11 @@ au FileType c set omnifunc=ccomplete#Complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <C-b> <C-b>3<C-e> "  Make overlap 3 extra on control-b
 
-" Yank text to the OS X clipboard
+" Yank text to the macOS clipboard
 noremap <leader>y "*y
 noremap <leader>yy "*Y
 
-" Preserve indentation while pasting text from the OS X clipboard
+" Preserve indentation while pasting text from the macOS clipboard
 noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 
 " esformatter
@@ -311,38 +320,51 @@ vnoremap <silent> <leader>es :EsformatterVisual<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.DS_Store$']
-" auto open if no file sent as arg
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" Toggle NERDtree with C-n
-map ,n <plug>NERDTreeTabsToggle<CR>
-" Autoclose if only NERDtree is left
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"let NERDTreeShowHidden=1
+"let NERDTreeIgnore=['\.DS_Store$']
+"" auto open if no file sent as arg
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"" Toggle NERDtree with C-n
+"map ,n <plug>NERDTreeTabsToggle<CR>
+"" Autoclose if only NERDtree is left
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" netrw (default installed alt for NERDTree)
+" more info: https://shapeshed.com/vim-netrw/
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3 " tre style directory listing
+"let g:netrw_browse_split = 2 " open files in new vertical split
+let g:netrw_browse_split = 4 " open file in previous window
+let g:netrw_altv = 1
+let g:netrw_winsize = 25 " width of dir explorer
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" 
-" let g:syntastic_html_tidy_quiet_messages = { "level": "warnings" }
-" let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
-" 
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" "let g:syntastic_check_on_wq = 0
-" let g:syntastic_enable_eslint_checker = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_enable_tslint_checker = 1
-" let g:syntastic_typescript_checkers = ['tslint', 'tsc']
-" let g:syntastic_enable_pug_checker = 1
-" let g:syntastic_pug_checkers = ['jade','pug']
-" let g:syntastic_python_checkers=['flake8']
-" 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_html_tidy_quiet_messages = { "level": "warnings" }
+let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_eslint_checker = 1
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_enable_tslint_checker = 1
+let g:syntastic_typescript_checkers = ['tslint', 'tsc']
+let g:syntastic_enable_pug_checker = 1
+let g:syntastic_pug_checkers = ['jade','pug']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
