@@ -72,7 +72,7 @@ alias vdot='vim ~/.dotfiles && szsh'
 alias vzsh='vim ~/.dotfiles/homedir/.zshrc && szsh'
 alias vtmux='vim ~/.dotfiles/homedir/.tmux.conf && tmux source-file ~/.tmux.conf'
 alias vnb='vim /sandbox/notebook'
-alias vhs='vim /Users/marwei/.hammerspoon/'
+alias vhs='vim ~/.hammerspoon/'
 alias pnb='jupyter notebook'
 
 
