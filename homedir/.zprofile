@@ -1,5 +1,5 @@
 ##############################################################################
-#Import the shell-agnostic (Bash or Zsh) environment config
+# Import the shell-agnostic (Bash or Zsh) environment config
 ##############################################################################
 source ~/.profile
 
@@ -22,8 +22,5 @@ function precmd () {
   z --add "$(pwd -P)"
 }
 
-# Setting PATH for Python 3.6
-# The original version is saved in .zprofile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-export PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null
