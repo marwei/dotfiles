@@ -17,10 +17,12 @@ setopt    incappendhistory  #Immediately append to the history file, not just wh
 ##############################################################################
 # z-zsh setup
 ##############################################################################
-. ~/.dotfiles/z-zsh/z.sh
-function precmd () {
-  z --add "$(pwd -P)"
-}
+if [[ -f ~/.dotfiles/z-zsh/z.sh ]]; then
+  . ~/.dotfiles/z-zsh/z.sh
+  function precmd () {
+    z --add "$(pwd -P)"
+  }
+fi
 
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null
