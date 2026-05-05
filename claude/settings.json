@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(npm run build:*)",
+      "Bash(chmod:*)",
+      "Bash(node test-server.js:*)",
+      "Bash(npm install)",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp list:*)",
+      "mcp__youtube-video__summarize_youtube_video",
+      "Bash(grep:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.obsidian.md)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.hyatt.com)",
+      "WebFetch(domain:www.ihg.com)",
+      "WebFetch(domain:adventuresbythesea.com)",
+      "WebFetch(domain:sanctuarycruises.com)",
+      "WebFetch(domain:www.missionranchcarmel.com)",
+      "WebFetch(domain:filoli.org)",
+      "Bash(head:*)",
+      "Bash(xargs:*)",
+      "Bash(cd /Users/weizhu/Library/Mobile Documents/iCloud~md~obsidian/Documents/cerebral:*)",
+      "Bash(unzip:*)",
+      "WebFetch(domain:www.amazon.com)",
+      "Bash(find:*)",
+      "WebFetch(domain:incentives.switchison.org)",
+      "Bash(ls:*)",
+      "Bash(cp:*)",
+      "Bash(cd:*)",
+      "Bash(node -e:*)",
+      "Bash(cd /Users/weizhu/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/cerebral/scripts/receipt-fetcher:*)",
+      "Bash(npm run lookup-receipt 25-12-21-amazon-byondeth-curtain-37-74.pdf)"
+    ],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "acceptEdits"
+  },
+  "model": "sonnet",
+  "enabledPlugins": {
+    "playwright-skill@playwright-skill": true
+  },
+  "effortLevel": "medium",
+  "theme": "dark",
+  "statusLine": {
+    "type": "command",
+    "command": "sh $HOME/.claude/statusline-command.sh"
+  }
+}
